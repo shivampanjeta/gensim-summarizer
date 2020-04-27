@@ -7,7 +7,8 @@ FROM ubuntu:18.04
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
          wget \
          curl \
-         python3.5 \
+         python3-dev \
+	 python3-pip \
          nginx \
 		 libgcc-5-dev \
          ca-certificates \
@@ -19,8 +20,8 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
 # a significant amount of space. These optimizations save a fair amount of space in the
 # image, which reduces start up time.
 
-RUN wget https://bootstrap.pypa.io/3.3/get-pip.py && python3.5 get-pip.py && \
-    pip3 install numpy scipy scikit-learn boto3 pandas flask gevent gunicorn gensim && \
+RUN pip3 install --upgrade pip
+RUN pip3 install numpy scipy scikit-learn boto3 pandas flask gevent gunicorn gensim && \
         (cd /usr/local/lib/python3.5/dist-packages/scipy/.libs; rm *; ln ../../numpy/.libs/* .) && \
         rm -rf /root/.cache
 
